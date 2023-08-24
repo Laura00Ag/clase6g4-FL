@@ -1,3 +1,5 @@
+from datetime import datetime
+
 class Medicamento:
     def __init__(self):
         self.__nombre = "" 
@@ -98,8 +100,9 @@ def main():
                        \n3- Ver número de mascotas en el servicio 
                        \n4- Ver medicamentos que se están administrando
                        \n5- Eliminar mascota 
-                       \n6- Salir 
-                       \nUsted ingresó la opción: ''' ))
+                       \n6- Eliminar medicamento de una mascota 
+                       \n7- Salir 
+                       \n\nUsted ingresó la opción: ''' )) ## mod
         if menu==1: # Ingresar una mascota 
             if servicio_hospitalario.verNumeroMascotas() >= 10:
                 print("No hay espacio ...") 
@@ -110,12 +113,28 @@ def main():
                 nombre=input("Ingrese el nombre de la mascota: ")
                 tipo=input("Ingrese el tipo de mascota (felino o canino): ")
                 peso=int(input("Ingrese el peso de la mascota: "))
-                fecha=input("Ingrese la fecha de ingreso (dia/mes/año): ")
+
+                ## mod
+                try:
+                    while True:
+                        fecha=input("Ingrese la fecha de ingreso (dia/mes/año): ")
+                        fecha = datetime.strptime(fecha, "%d/%m/%Y")
+                        break
+                except:
+                    print("La fecha no está en el formato solicitado. Ingrese de nuevo.")
+
                 nm=int(input("Ingrese cantidad de medicamentos: "))
                 lista_med=[]
 
+
                 for i in range(0,nm):
-                    nombre_medicamentos = input("Ingrese el nombre del medicamento: ")
+                    while True: ## mod
+                        nombre_medicamentos = input("Ingrese el nombre del medicamento: ")
+                        if nombre_medicamentos in lista_med:
+                            print("El medicamento ya se encuentra registrado.")
+                        else:
+                            break
+
                     dosis =int(input("Ingrese la dosis: "))
                     medicamento = Medicamento()
                     medicamento.asignarNombre(nombre_medicamentos)
@@ -166,7 +185,11 @@ def main():
             else:
                 print("No se ha podido eliminar la mascota")
         
-        elif menu==6:
+        elif menu==6: ## mod
+            pass
+            
+
+        elif menu==7:
             print("Usted ha salido del sistema de servicio de hospitalización...")
             break
         
